@@ -1,0 +1,33 @@
+{
+  "name": "aquila-for-vscode",
+  "version": "1.1.2",
+  "engines": {
+    "vscode": ">=0.9.0-pre.1"
+  },
+  "publisher": "NicolasReyland",
+  "description": "Aquila grammar package (syntax highlighting)",
+  "contributes": {
+  	"languages": [{
+  		"id": "aquila",
+  		"aliases": ["Aquila", "aquila"],
+  		"extensions": [".aq"]
+  	}],
+  	"grammars": [{
+  		"language": "aquila",
+  		"scopeName": "source.aquila",
+  		"path": "./syntaxes/aquila.json"
+  	}]
+  },
+  "icon": "images/aquila-icon.png",
+
+  "author": "Nicolas Reyland",
+  "description": "Aquila grammar package (syntax highlighting)",
+  "repository": "https://github.com/Nicolas-Reyland/aquila-for-vscode",
+  "keywords": [
+    "syntax",
+    "highlighting",
+    "grammar"
+  ],
+  "license": "MIT",
+  "bugs": "https://github.com/Nicolas-Reyland/aquila-for-vscode/issues"
+}

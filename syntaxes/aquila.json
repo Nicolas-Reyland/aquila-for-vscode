@@ -1,0 +1,244 @@
+{
+  "scopeName": "source.aquila",
+  "name": "Aquila",
+  "fileTypes": [
+    "aq"
+  ],
+  "patterns": [
+    {
+      "comment": "single-line comment",
+      "match": "(.*)(//.*$)",
+      "captures": {
+        "1": {"patterns": [{ "include": "$self" }]},
+        "2": {"name": "comment.line.aquila"}
+      }
+    },
+    {
+      "comment": "multiple-lines comment",
+      "contentName": "comment.block.aquila",
+      "begin": "(.*)(\\/\\*\\*)",
+      "beginCaptures": {
+        "1": {"patterns": [{ "include": "$self" }]},
+        "2": {"name": "comment.block.aquila"}
+      },
+      "end": "\\*\\*\\/",
+      "endCaptures": {
+        "0": {"name": "comment.block.aquila"}
+      }
+    },
+    {
+      "comment": "nested instructions",
+      "contentName": "markup.other.forloop.aquila",
+      "begin": "(for |if |while )(\\()(.*)(\\))",
+      "beginCaptures": {
+        "1": {"name": "keyword.control.aquila"},
+        "3": {"patterns": [{ "include": "$self" }]}
+      },
+      "end": "end\\-for|end\\-if|end\\-while",
+      "endCaptures": {
+        "0": {"name": "keyword.control.aquila"}
+      },
+      "patterns": [
+        {
+          "match": "else",
+          "name": "keyword.control.aquila"
+        },
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    {
+      "comment": "macro 2P name",
+      "match": "(#name) +(.*)",
+      "captures": {
+        "1": {"name": "entity.name.tag.aquila"},
+        "2": {"name": "entity.name.section.aquila"}
+      }
+    },
+    {
+      "comment": "macro 2P setting",
+      "match": "(#setting) +([\\(||\\[].*[\\)|\\]]) +(.*)",
+      "captures": {
+        "1": {"name": "entity.name.tag.aquila"},
+        "2": {"name": "entity.name.section.aquila"},
+        "3": {"name": "constant.language.aquila"}
+      }
+    },
+    {
+      "comment": "macro 2P",
+      "match": "(#[a-zA-Z]*) +(.*)",
+      "captures": {
+        "1": {"name": "entity.name.tag.aquila"},
+        "2": {"name": "string.unquoted.aquila"}
+      }
+    },
+    {
+      "comment": "variable declaration with explicit type and value",
+      "match": "([safe |overwrite |const |global ]*decl)( +int| +float| +bool| +list| +auto)? +([a-zA-Z_][0-9a-zA-Z_]*) *(.*)",
+      "captures": {
+        "1": {"name": "storage.modifier.aquila"},
+        "2":
+        {
+          "name": "support.type.aquila",
+          "patterns": [{
+            "match": "auto",
+            "name": "support.other.aquila"
+          }]
+        },
+        "3": {
+          "name": "variable.other.aquila",
+          "patterns": [{
+              "match": "^if$|^else$|^end\\-if$|^for$|^end-for$|^while$|^end-while$|^decl$|^safe$|^overwrite$|^overwrite$|^safe$|^trace$|^null$|^auto$|^int$|^float$|^bool$|^list$|^function$|^end-function$|^break$|^continue$|^global$",
+              "name": "invalid.illegal.aquila"
+            }]
+          },
+        "4": {
+          "name": "constant.other.aquila",
+          "patterns": [{ "include": "$self" }]
+        }
+      }
+    },
+    {
+      "comment": "assignment =",
+      "match": "\\=",
+      "name": "keyword.other.aquila"
+    },
+    {
+      "comment": "null variable",
+      "match": "\\$null",
+      "name": "keyword.control.aquila"
+    },
+    {
+      "comment": "variables",
+      "match": "\\$[a-zA-Z_][0-9a-zA-Z_]*",
+      "name": "variable.other.aquila"
+    },
+    {
+      "comment": "list variables access using brackets []",
+      "match": "(\\$[a-zA-Z_][0-9a-zA-Z_]*)(\\[)([^\\[\\]]*)(\\])",
+      "captures": {
+        "1": {"name": "variable.other.aquila"},
+        "2": {"name": "string.interpolated.aquila"},
+        "3": {"patterns": [{ "include": "$self" }]},
+        "4": {"name": "string.interpolated.aquila"}
+      }
+    },
+    {
+      "comment": "arithmetical & logical operators",
+      "match": "[\\+\\-\\*\\/\\%\\<\\>\\{\\}\\:\\~\\&\\|\\^]",
+      "name": "keyword.operator.aquila"
+    },
+    {
+      "comment": "comma separator",
+      "match": "\\,",
+      "name": "string.quoted.other.aquila"
+    },
+    {
+      "comment": "semi-colon separator",
+      "match": "\\;",
+      "name": "string.quoted.single.aquila"
+    },
+    {
+      "comment": "function definition",
+      "contentName": "markup.other.function.aquila",
+      "begin": "(function) +(recursive +)?(int|float|bool|list|null|auto) +([a-zA-Z_][0-9a-zA-Z_]*) *(\\()(.*)(\\))",
+      "beginCaptures":
+      {
+        "1": {"name": "support.class.aquila"},
+        "2": {"name": "keyword.control.aquila"},
+        "3": {
+          "name": "support.type.aquila",
+          "patterns": [{
+            "match": "auto",
+            "name": "support.other.aquila"
+          }]
+        },
+        "4": {"name": "support.class.aquila"},
+        "6": {
+          "name": "variable.parameter.aquila",
+          "patterns": [
+            {
+              "match": "^if$|^else$|^end\\-if$|^for$|^end-for$|^while$|^end-while$|^decl$|^safe$|^overwrite$|^overwrite$|^safe$|^trace$|^null$|^auto$|^int$|^float$|^bool$|^list$|^function$|^end-function$|^break$|^continue$|^global$",
+              "name": "invalid.illegal.aquila"
+            },
+            {
+              "match": "\\,",
+              "name": "string.quoted.other.aquila"
+            },
+            {
+              "match": "[a-zA-Z_][0-9a-zA-Z_]*",
+              "name": "variable.other.aquila"
+            }
+          ]
+        }
+      },
+      "end": "end\\-function",
+      "endCaptures": {
+        "0": {"name": "support.class.aquila"}
+      },
+      "patterns": [{ "include": "$self" }]
+    },
+    {
+      "comment": "control keyword return",
+      "match": "(return) *(\\()?(.*)(\\))?",
+      "captures": {
+        "1": {"name": "keyword.control.aquila"},
+        "2": {"name": "string.interpolated.aquila"},
+        "3": {"patterns": [{ "include": "$self" }]},
+        "4": {"name": "string.interpolated.aquila"}
+        }
+    },
+    {
+      "comment": "control flow functions",
+      "match": "(continue|break) *(\\( *\\))?",
+      "captures": {
+        "1": {"name": "keyword.control.aquila"},
+        "2": {"name": "string.interpolated.aquila"}
+      }
+    },
+    {
+      "comment": "print_str & print_str_endl functions",
+      "match": "(print_str|print_str_endl|interactive_call) *(\\()(.*)(\\))",
+      "captures": {
+        "1": {"name": "support.function.aquila"},
+        "2": {"name": "string.interpolated.aquila"},
+        "3": {"name": "markup.raw.aquila"},
+        "4": {"name": "string.interpolated.aquila"}
+      }
+    },
+    {
+      "comment": "all other functions",
+      "match": "([a-zA-Z_][0-9a-zA-Z_]*) *(\\()(.*)(\\))",
+      "captures": {
+        "1": {"name": "support.function.aquila"},
+        "2": {"name": "string.interpolated.aquila"},
+        "3": {"patterns": [{ "include": "$self" }]},
+        "4": {"name": "string.interpolated.aquila"}
+      }
+    },
+    {
+      "comment": "other keywords",
+      "match": "(trace|trace_func)( +.*)+",
+      "captures": {
+        "1": {"name": "support.class.aquila"},
+        "2": {"patterns": [{ "include": "$self" }]}
+      }
+    },
+    {
+      "comment": "integers & floats",
+      "match": "[0-9]+[\\.[0-9]+]?f?",
+      "name": "constant.numeric.aquila"
+    },
+    {
+      "comment": "bools",
+      "match": "true|false",
+      "name": "constant.language.aquila"
+    },
+    {
+      "comment": "lists",
+      "match": "\\[|\\]",
+      "name": "string.interpolated.aquila"
+    }
+  ]
+}

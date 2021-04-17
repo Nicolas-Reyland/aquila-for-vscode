@@ -1,1 +1,1 @@
-"# aquila-for-vscode" 
+# aquila-for-vscode
